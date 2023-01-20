@@ -27,13 +27,6 @@ router.get('/', (req, res) => {
 // users
 router.get('/getUsers', (req, res) => {
 
-    users = [
-        { "email": "vitalij.scigrin@gmail.com", "name": "Vitalij" },
-        { "email": "arina.avdejeva@gmail.com", "name": "Arina" },
-        { "email": "ksenia.scigrin@gmail.com", "name": "Ksenia" },
-        { "email": "polina.scigrin@gmail.com", "name": "Polina" }
-    ];
-
     res.json(users);
 });
 
@@ -42,10 +35,8 @@ router.post('/addUser', (req, res) => {
     let name = req.body.name;
     let email = req.body.email;
 
-    console.log("addUser called with params: name = " + name + " and email = " + email);
+    users.push({ "name": name, "email": email });
 
-    //res.set('Content-Type', 'application/json');
-    //res.status(200).send({ response: 'User successfully added.', error: '' });
     res.json({ response: 'User successfully added.', error: false });
 });
 
@@ -55,11 +46,36 @@ router.get('/getShops', (req, res) => {
     res.json(shops);
 });
 
+router.post('/addShop', (req, res) => {
+
+    let name = req.body.name;
+    let email = req.body.email;
+
+    shops.push({ "name": name, "email": email });
+
+    res.json({ response: 'Shop successfully added.', error: false });
+});
+
 // products
 router.get('/getProducts', (req, res) => {
 
     res.json(products);
 });
+
+router.post('/addProduct', (req, res) => {
+
+    let name = req.body.name;
+    let email = req.body.email;
+
+    products.push({ "name": name, "email": email });
+
+    res.json({ response: 'Product successfully added.', error: false });
+});
+
+
+
+
+
 
 app.use('/.netlify/functions/api', router);
 
