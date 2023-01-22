@@ -1,7 +1,7 @@
 const express = require('express');
 const serverless = require('serverless-http');
 const bodyParser = require('body-parser');
-const request = require('request');
+const cors = require('cors');
 
 const app = express();
 app.use(bodyParser.json());
@@ -11,11 +11,18 @@ app.use(bodyParser.urlencoded({
 
 const router = express.Router();
 
+//*********************************************************/
+
+const devMode = true;
+
+//*********************************************************/
 
 // DB Objects
 let users = [];
 let shops = [];
 let products = [];
+
+//*********************************************************/
 
 router.get('/', (req, res) => {
 
@@ -24,58 +31,23 @@ router.get('/', (req, res) => {
     });
 });
 
-// users
-router.get('/getUsers', (req, res) => {
+router.post('/sendData', (req, res) => {
 
-    res.json(users);
-});
+    let body = req.body;
 
-router.post('/addUser', (req, res) => {
+    console.log("sendData :: body = " + JSON.stringify(body, null, 2));
 
-    let name = req.body.name;
-    let email = req.body.email;
-
-    users.push({ "name": name, "email": email });
-
-    res.json({ response: 'User successfully added.', error: false });
-});
-
-// shops
-router.get('/getShops', (req, res) => {
-
-    res.json(shops);
-});
-
-router.post('/addShop', (req, res) => {
-
-    let name = req.body.name;
-    let email = req.body.email;
-
-    shops.push({ "name": name, "email": email });
-
-    res.json({ response: 'Shop successfully added.', error: false });
-});
-
-// products
-router.get('/getProducts', (req, res) => {
-
-    res.json(products);
-});
-
-router.post('/addProduct', (req, res) => {
-
-    let name = req.body.name;
-    let email = req.body.email;
-
-    products.push({ "name": name, "email": email });
-
-    res.json({ response: 'Product successfully added.', error: false });
+    res.json({ response: 'Sync data received.', error: false });
 });
 
 
+//*********************************************************/
 
-
-
+if (devMode) {
+    app.use(cors({
+        origin: '*'
+    }));
+}
 
 app.use('/.netlify/functions/api', router);
 
